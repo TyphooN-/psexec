@@ -1,0 +1,17 @@
+---
+- name: 'Install PsExec' 
+  hosts: pstools
+
+  vars_files:
+    - vars/winrm.yml
+    - vars/vars.yml
+
+  tasks:
+    - name: 'Ensure Ansible directory exists.'
+      win_file: path={{ ansibledir }} state=directory
+
+    - name: 'Copy PsExec.exe'
+      win_copy: src='PSTools/PsExec.exe' dest='C:\ansible\PsExec.exe'
+
+    - name: 'Accept EULA'
+      raw: '{{ansibledir}}\PsExec.exe -accepteula'
